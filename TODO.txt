@@ -1,0 +1,11 @@
+Current Objectives:
+
+--Finish adapting my capstone code
+    --Add code to support using multiple GPUs for training larger models more efficiently
+--Test with smaller networks locally to ensure stability and utility.
+
+Future objectives:
+
+--Adapt to a normal Python module for easier use in other projects
+--Explore different noise types and budgeting
+--Optimize code intended for utilizing multiple GPUs
