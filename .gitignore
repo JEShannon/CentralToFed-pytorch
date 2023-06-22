@@ -1,0 +1,7 @@
+# ignore downloaded files (excluding shakespeare, at least until I add the processing scipt I used so it can be remade by others)
+datasets/data/CIFAR/*
+datasets/data/CIFAR10/*
+datasets/data/MNIST/*
+
+# ignore the train file for speare because it is too large.  Until the creation script is added, I have a ZIP of the training data installed
+datasets/data/SPEARE/Shakespeare_train.pt
