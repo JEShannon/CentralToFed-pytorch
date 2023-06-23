@@ -36,10 +36,9 @@ def makeCIFAR10Data(num_users):
     users += 1
     if(users >= num_users):
       return datasets, CIFAR_test
+  return datasets, CIFAR_test
 
 #### CIFAR-100
-
-#download
 
 def makeCIFAR100Data(num_users):
   trans_CIFAR = transforms.Compose([transforms.ToTensor(),])
@@ -57,6 +56,7 @@ def makeCIFAR100Data(num_users):
     users += 1
     if(users >= num_users):
       return datasets, CIFAR_test
+  return datasets, CIFAR_test
 
 #### MNIST
 
@@ -76,6 +76,7 @@ def makeMNISTData(num_users):
     users += 1
     if(users >= num_users):
       return datasets, mnist_test
+  return datasets, mnist_test
 
 #### Breast Cancer Wisconsin
 
@@ -115,6 +116,7 @@ def makeBCWData(num_users):
     users += 1
     if(users >= num_users):
       return datasets, bcw_test
+  return datasets, bcw_test
 
 #### Shakespeare
 
@@ -125,9 +127,11 @@ def makeBCWData(num_users):
 #assemble the sets!
 def makeSpeareData(num_users):
   SHAKESPEARE_TRAIN_DATASET = './data/SPEARE/Shakespeare_train.pt'
-  Speare_train_sets = torch.load(SHAKESPEARE_TRAIN_DATASET)
-
   SHAKESPEARE_TEST_DATASET = './data/SPEARE/Shakespeare_test.pt'
+  if((not exists(SHAKESPEARE_TRAIN_DATASET)) or (not exists(SHAKESPEARE_TEST_DATASET))):
+    shakespeare.makeSpeareData()
+  
+  Speare_train_sets = torch.load(SHAKESPEARE_TRAIN_DATASET)
   Speare_test_sets = torch.load(SHAKESPEARE_TRAIN_DATASET)
 
   speare_test = TensorDataset(torch.tensor(Speare_test_sets[0][0]), torch.squeeze(torch.tensor(Speare_test_sets[1][0])))
@@ -143,4 +147,6 @@ def makeSpeareData(num_users):
     #print(c_input.shape, c_labels.shape)
     c_dataset = TensorDataset(c_input, c_labels)
     datasets.append(DataLoader(c_dataset, batch_size=512, shuffle=True))
+    if(users >= num_users):
+      return datasets, speare_test
   return datasets, speare_test

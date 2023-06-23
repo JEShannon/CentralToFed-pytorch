@@ -4,4 +4,4 @@ datasets/data/CIFAR10/*
 datasets/data/MNIST/*
 
 # ignore the train file for speare because it is too large.  Until the creation script is added, I have a ZIP of the training data installed
-datasets/data/SPEARE/Shakespeare_train.pt
+datasets/data/SPEARE/*

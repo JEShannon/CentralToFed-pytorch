@@ -19,6 +19,8 @@ class simpleServer(serverBase):
             #initialize the clients
             self.__clients.append(clientFn(model, data[i]))
 
+    def test
+
     #implemented in subclasses, and params fit the needs of the subclass
     def __doRound(self, global_w, perturb, noise, sensitivity, lossFn, optim, learning, binary=False):
         #update each client, which at this point is a copy of the global model with an
