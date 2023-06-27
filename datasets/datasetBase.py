@@ -15,9 +15,6 @@ class ClientSet(Dataset):
   def __getitem__(self, idx):
     return self.images[idx], self.labels[idx]
 
-#Although all datasets are here, you can easily make your own and add them in for training.  All functions require a number of clients, but can have other parameters.
-
-
 #### CIFAR-10
 
 def makeCIFAR10Data(num_users):

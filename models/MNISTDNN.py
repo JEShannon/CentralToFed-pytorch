@@ -23,4 +23,4 @@ class MNIST_DNN(CentraloFedBase):
         return x
 
 def MNISTDNN():
-    return MNIST_DNN()
+  return MNIST_DNN()

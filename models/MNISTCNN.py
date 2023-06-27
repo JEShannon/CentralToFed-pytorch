@@ -39,3 +39,6 @@ class MNIST_CNN(CentraloFedBase):
         x = F.relu(self.fc2_bn(self.fc2(x)))
         x = self.fc3(x)
         return x
+
+def MNISTCNN():
+  return MNIST_CNN()

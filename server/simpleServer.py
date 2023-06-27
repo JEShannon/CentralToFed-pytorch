@@ -7,7 +7,7 @@ from serverBase import serverBase
 #For larger or more complicated networks, use the file-passing server instead.
 class simpleServer(serverBase):
 
-    def __init__(self, model, datafn, clientFn, aggregator, numClients=10):
+    def __init__(self, config):
         super.__init__("simple server")
         self.__model = model
         data, test_set = datafn(numClients)
@@ -67,7 +67,10 @@ class simpleServer(serverBase):
         #begin training for the specified number of epochs
         for epoch in range(epochs):
           #print('Round',epoch+1)
-          budget = noiseBudget.getBudgetAt(epoch)
+          if(noiseBudget):
+            budget = noiseBudget.getBudgetAt(epoch)
+          else:
+            budget = 0.0
           total_budget += budget
           #print("Training clients!")
           weights, loss, acc = self.__doRound(weights, peturb, budget, sensitivity=sensitivity, lossFn=lossFn, optim=optim, learning=learning, binary=binary)

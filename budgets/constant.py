@@ -1,6 +1,6 @@
 from budgetbase import budget
 
-class constantBudget(budget):
+class ConstantBudget(budget):
     def __init__(self, roundBudget = 0):
         super().__init__("Constant Budget")
         self.__budget = totalBudget
