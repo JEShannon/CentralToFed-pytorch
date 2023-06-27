@@ -4,7 +4,7 @@ from configurations import FedConfiguration
 from models.MNISTCNN import MNISTCNN
 from models.MNISTDNN import MNISTDNN
 from models.BCWDNN import BCWDNN
-from models.ShakespeareLSTM import ShhakeSpeareLSTM
+from models.ShakespeareLSTM import ShakeSpeareLSTM
 from models.Resnet import Resnet101, Resnet152, Resnet34_CIFAR10, Resnet50_CIFAR10
 from datasets.datasetBase import *
 from aggregation.federatedAveraging import fedAvg
@@ -19,7 +19,7 @@ def getMNIST_CNNConfig():
     config["dataFn"] = makeMNISTData
     config["aggregator"] = fedAvg()
     # Clients are held as a list so you can set a percentage as malicious
-    # Ensuring this results in the correct number of clients is the server's job.
+    # Ensuring this results in the correct number of clients is the server's job (currently unimplemented).
     config["clientFn"] = [simpleClient]
     config["clientRatios"] = [1.0]
     # training parameters
