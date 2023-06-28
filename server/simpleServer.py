@@ -21,8 +21,51 @@ class simpleServer(serverBase):
             #### TODO: Use the config's clients array to have different clients in the same system -- NEEDED for scenarios with malicious clients.
             self.__clients.append(config["clientFn"][0](model, data[i]))
 
-    def test(self):
-        pass
+    def test(self, weights):
+        testModel = self__model()
+        testModel.load_state_dict(weights)
+        testModel.eval()
+        loss = 0.0
+        total = 0
+        correct = 0
+        runs = 0.0
+        for data, labels in dataset:
+            probs = model(data)
+            loss_fun = lossfn()
+            loss += loss_fun(probs, labels).item() * labels.size(0)
+            #print(labels.shape)
+            #print(labels)
+            if(binary):
+              #print('Binary!')
+              predicted = [1 if x.item() > 0.5 else 0 for x in probs]
+              #print(predicted[:8], labels[:8])
+              #print([(0 if predicted[x] < 0.5 else 1 ) == labels[x].item() for x in range(8)])
+              for i in range(len(predicted)):
+                if(predicted[i] == labels[i].item()):
+                  correct += 1
+              total += labels.size(0)
+              #print(total)
+              continue
+            if(top):
+              _, predicted = torch.topk(probs.data, top, 1)
+              #print(predicted.shape)
+              #print(predicted)
+            else:
+              _, predicted = torch.max(probs.data, 1)
+            total += labels.size(0)
+            if(top):
+              for x in range(predicted.size(dim=0)):
+                #print(labels[x])
+                #print(predicted[x])
+                if(labels[x] in predicted[x]):
+                  #print(True)
+                  correct += 1
+            else:
+              correct += (predicted == labels).sum().item()
+            runs += 1.0
+
+  #print(loss/total, correct/total, ones/total)
+  return loss/total, correct/total
 
     #implemented in subclasses, and params fit the needs of the subclass
     def __doRound(self, global_w, noise):
