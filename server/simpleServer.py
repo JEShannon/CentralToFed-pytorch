@@ -22,20 +22,20 @@ class simpleServer(serverBase):
             self.__clients.append(config["clientFn"][0](model, data[i]))
 
     def test(self, weights):
-        testModel = self__model()
+        testModel = self.__model()
         testModel.load_state_dict(weights)
         testModel.eval()
         loss = 0.0
         total = 0
         correct = 0
         runs = 0.0
-        for data, labels in dataset:
-            probs = model(data)
-            loss_fun = lossfn()
+        for data, labels in self.__test_set:
+            probs = testModel(data)
+            loss_fun = self.__config["lossFn"]()
             loss += loss_fun(probs, labels).item() * labels.size(0)
             #print(labels.shape)
             #print(labels)
-            if(binary):
+            if(self.__config["binaryResult"]):
               #print('Binary!')
               predicted = [1 if x.item() > 0.5 else 0 for x in probs]
               #print(predicted[:8], labels[:8])
@@ -46,14 +46,14 @@ class simpleServer(serverBase):
               total += labels.size(0)
               #print(total)
               continue
-            if(top):
+            if(self.__config["topkTesting"]):
               _, predicted = torch.topk(probs.data, top, 1)
               #print(predicted.shape)
               #print(predicted)
             else:
               _, predicted = torch.max(probs.data, 1)
             total += labels.size(0)
-            if(top):
+            if(self.__config["topkTesting"]):
               for x in range(predicted.size(dim=0)):
                 #print(labels[x])
                 #print(predicted[x])
@@ -121,7 +121,7 @@ class simpleServer(serverBase):
           weights, loss, acc = self.__doRound(weights, budget)
           train_acc.append(acc)
           train_loss.append(loss)
-          g_loss, g_acc = 0.0, 0.0 #test(model, test_set, lossfn=lossfn, binary=binary)  #testing function is not yet implemented #### TODO ####
+          g_loss, g_acc = self.test(weights)
           #print(g_loss, g_acc)
           #print("Testing!")
           if (abs(curr - g_acc) < tol) and not curr == 200.0 and earlyStop and not hasStopped:
@@ -135,7 +135,7 @@ class simpleServer(serverBase):
             count = 0
             curr = g_acc
           if(topk):
-            k_loss,k_acc = 0.0, 0.0 #test(model, test_set, topk, lossfn=lossfn, binary=binary)  #testing function is not yet implemented #### TODO ####
+            k_loss,k_acc = self.test(weights)
             test_acc.append(tuple([g_acc, k_acc]))
             test_loss.append(tuple([g_loss, k_loss]))
             print(test_acc)
