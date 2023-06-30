@@ -1,4 +1,5 @@
 import torch
+from torch.utils.data import DataLoader
 from .serverBase import serverBase
 
 #This type of server is straight forward, and sequentially trains each client.
@@ -8,28 +9,33 @@ from .serverBase import serverBase
 class simpleServer(serverBase):
 
     def __init__(self, config):
-        super.__init__("simple server")
-        self__config = config
+        super().__init__("simple server")
+        self.__config = config
+        numClients = 10   #### TO DO:  Add a value to track this value instead
         self.__model = config["model"]
-        data, test_set = config["dataFn"](numClients)
+        data, testset = config["dataFn"](numClients)
         self.__datasets = data
+        test_set = [next(iter(DataLoader(testset, batch_size=500, shuffle=True)))]
         self.__testSet = test_set
         self.__aggregator = config["aggregator"]
         self.__clients = []
         for i in range(numClients):
             #initialize the clients
             #### TODO: Use the config's clients array to have different clients in the same system -- NEEDED for scenarios with malicious clients.
-            self.__clients.append(config["clientFn"][0](model, data[i]))
+            self.__clients.append(config["clientFn"][0](self.__model, data[i]))
 
     def test(self, weights):
+        DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         testModel = self.__model()
         testModel.load_state_dict(weights)
+        testModel = testModel.to(DEVICE)
         testModel.eval()
         loss = 0.0
         total = 0
         correct = 0
         runs = 0.0
-        for data, labels in self.__test_set:
+        for data, labels in self.__testSet:
+            data, labels = data.to(DEVICE), labels.to(DEVICE)
             probs = testModel(data)
             loss_fun = self.__config["lossFn"]()
             loss += loss_fun(probs, labels).item() * labels.size(0)
@@ -90,6 +96,7 @@ class simpleServer(serverBase):
         #for testing, this pulls just a small sample of the testing dataset
         test_loader = DataLoader(self.__testSet, batch_size=500, shuffle=True)
         test_set = [next(iter(test_loader))]
+        noiseBudget = self.__config["budget"]
 
         train_acc = []
         train_loss = []
@@ -101,6 +108,8 @@ class simpleServer(serverBase):
             weights = self.__model().state_dict()
 
         total_budget = 0.0
+
+        earlyStop = False
         
         #the following values are for early stopping
         tol = 0.00025
@@ -111,7 +120,7 @@ class simpleServer(serverBase):
 
         #begin training for the specified number of epochs
         for epoch in range(epochs):
-          #print('Round',epoch+1)
+          print('Round',epoch+1)
           if(noiseBudget):
             budget = noiseBudget.getBudgetAt(epoch)
           else:
@@ -134,7 +143,7 @@ class simpleServer(serverBase):
             #print(count)
             count = 0
             curr = g_acc
-          if(topk):
+          if(self.__config["topkTesting"]):
             k_loss,k_acc = self.test(weights)
             test_acc.append(tuple([g_acc, k_acc]))
             test_loss.append(tuple([g_loss, k_loss]))
@@ -146,5 +155,5 @@ class simpleServer(serverBase):
           if(hasStopped):
             break
         #print(test_acc[-1])
-        print('total budget:', total_budget)
+        print('total budget:', (None if total_budget == 0 else total_budget))
         return weights, train_acc, train_loss, test_acc, test_loss, total_budget

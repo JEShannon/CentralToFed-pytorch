@@ -7,7 +7,7 @@ from .modelBase import CentralToFedBase
 
 class MNIST_CNN(CentralToFedBase):
   def __init__(self):
-        super(FedLap, self).__init__()
+        super().__init__()
         self.conv1 = nn.Conv2d(1, 32, 2)
         self.pool1 = nn.MaxPool2d(2, 2)
         

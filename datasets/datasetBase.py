@@ -1,5 +1,5 @@
 import torch
-from torch.utils.data import Dataset
+from torch.utils.data import DataLoader, Dataset
 from torchvision import datasets, transforms
 import pandas as pd
 
@@ -25,14 +25,14 @@ def makeCIFAR10Data(num_users):
   CIFAR_TEST_SET = DataLoader(CIFAR_test, batch_size=10, shuffle=True)
   
   CIFAR_loader = DataLoader(CIFAR_train, batch_size=len(CIFAR_train)//num_users, shuffle=True)
-  datasets = []
+  userDatasets = []
   users = 0
   for images, labels in CIFAR_loader:
     client_dataset = ClientSet(images, labels)
-    datasets.append(DataLoader(client_dataset, batch_size = 100, shuffle=True))
+    userDatasets.append(DataLoader(client_dataset, batch_size = 100, shuffle=True))
     users += 1
     if(users >= num_users):
-      return datasets, CIFAR_test
+      return userDatasets, CIFAR_test
   return datasets, CIFAR_test
 
 #### CIFAR-100
@@ -45,11 +45,11 @@ def makeCIFAR100Data(num_users):
   CIFAR_TEST_SET = DataLoader(CIFAR_test, batch_size=10, shuffle=True)
   
   CIFAR_loader = DataLoader(CIFAR_train, batch_size=len(CIFAR_train)//num_users, shuffle=True)
-  datasets = []
+  userDatasets = []
   users = 0
   for images, labels in CIFAR_loader:
     client_dataset = ClientSet(images, labels)
-    datasets.append(DataLoader(client_dataset, batch_size = 100, shuffle=True))
+    userDatasets.append(DataLoader(client_dataset, batch_size = 100, shuffle=True))
     users += 1
     if(users >= num_users):
       return datasets, CIFAR_test
@@ -65,15 +65,15 @@ def makeMNISTData(num_users):
   MNIST_TEST_SET = DataLoader(mnist_test, batch_size=100, shuffle=True)
   
   mnist_loader = DataLoader(mnist_train, batch_size=len(mnist_train)//num_users, shuffle=True)
-  datasets = []
+  userDatasets = []
   users = 0
   for images, labels in mnist_loader:
     client_dataset = ClientSet(images, labels)
-    datasets.append(DataLoader(client_dataset, batch_size = 100, shuffle=True))
+    userDatasets.append(DataLoader(client_dataset, batch_size = 100, shuffle=True))
     users += 1
     if(users >= num_users):
-      return datasets, mnist_test
-  return datasets, mnist_test
+      return userDatasets, mnist_test
+  return userDatasets, mnist_test
 
 #### Breast Cancer Wisconsin
 

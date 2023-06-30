@@ -1,4 +1,5 @@
 import torch
+import copy
 from .aggregateBase import aggregator
 
 class fedAvg(aggregator):
@@ -7,9 +8,9 @@ class fedAvg(aggregator):
         super().__init__("FedAvg")
 
     def aggregate(self, clients):
-        average_weight = copy.deepcopy(clients[0])
-        for layer in average_weight.keys():
-          if(not isinstance(average_weight[layer].type(), torch.FloatTensor)):
+        average_weights = copy.deepcopy(clients[0])
+        for layer in average_weights.keys():
+          if(not isinstance(average_weights[layer].type(), torch.FloatTensor)):
             # Don't average non-float values, as those aren't normally trainable values.
             continue
           for i in range(1, len(clients)):

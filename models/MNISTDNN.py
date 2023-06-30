@@ -5,7 +5,7 @@ from .modelBase import CentralToFedBase
 
 class MNIST_DNN(CentralToFedBase):
   def __init__(self):
-        super(FedLap, self).__init__()
+        super().__init__()
         
         self.layer1 = nn.Linear(784, 800)
         

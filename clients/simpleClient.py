@@ -12,15 +12,17 @@ class simpleClient(fedClient):
 
     def train(self, weights, noiseFn=None, noise=0.0, sensitivity=1.0, learningRate=0.001, lossFn=nn.CrossEntropyLoss, optim=torch.optim.Adam):
         #### TO DO: Add checking to ensure the configuration (noise, model, etc) are valid, with errors to allow for debugging
+        DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model = self.model()
         model.load_state_dict(weights)
+        model = model.to(DEVICE)
         model.train()
         loss_fun = lossFn()
         optimizer = optim(model.parameters(), lr=learningRate)
         total = 0
         correct = 0
         net_loss = 0.0
-        for data, labels in dataset:
+        for data, labels in self.data:
             data = data.to(DEVICE)
             labels = labels.to(DEVICE)
             probs = model(data)
@@ -43,5 +45,5 @@ class simpleClient(fedClient):
                 finalWeights = noiseFn.perturb(finalWeights, noise=noise, sensitivity=sensitivity)
             else:
                 finalWeights = noiseFn.perturb(finalWeights, sensitivity=sensitivity)
-        return finalWeights, netloss/total, correct/total
+        return finalWeights, net_loss/total, correct/total
             
