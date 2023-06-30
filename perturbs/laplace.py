@@ -1,4 +1,4 @@
-from perturbbase import ModelPerturb
+from .perturbbase import ModelPerturb
 import torch
 from torch.distributions.laplace import Laplace
 

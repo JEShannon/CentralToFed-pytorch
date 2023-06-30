@@ -1,4 +1,4 @@
-from clientBase import fedClient
+from .clientBase import fedClient
 import torch
 import torch.nn as nn
 

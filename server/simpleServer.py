@@ -1,5 +1,5 @@
 import torch
-from serverBase import serverBase
+from .serverBase import serverBase
 
 #This type of server is straight forward, and sequentially trains each client.
 #It uses the trainTest function to run a specified number of epochs with optionally defined weights.
@@ -64,8 +64,8 @@ class simpleServer(serverBase):
               correct += (predicted == labels).sum().item()
             runs += 1.0
 
-  #print(loss/total, correct/total, ones/total)
-  return loss/total, correct/total
+        #print(loss/total, correct/total, ones/total)
+        return loss/total, correct/total
 
     #implemented in subclasses, and params fit the needs of the subclass
     def __doRound(self, global_w, noise):
@@ -86,7 +86,7 @@ class simpleServer(serverBase):
 
     #implemented in subclasses, but it is recommended to keep to this signature
     #TODO: BETTER COMMUNICATE TRAINING OUTPUTS (LIKE CURRENT EPOCH COUNT, ETC)
-    def trainTest(self, weights=None, epochs):
+    def trainTest(self, weights=None, epochs=10):
         #for testing, this pulls just a small sample of the testing dataset
         test_loader = DataLoader(self.__testSet, batch_size=500, shuffle=True)
         test_set = [next(iter(test_loader))]

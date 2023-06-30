@@ -1,11 +1,11 @@
 import torch.nn as nn
 import torch.nn.functional as F
-from modelBase import CentralToFedBase
+from .modelBase import CentralToFedBase
 
 #based on a CNN model used in one of my classes.  
 #This is here for proof of concept.
 
-class MNIST_CNN(CentraloFedBase):
+class MNIST_CNN(CentralToFedBase):
   def __init__(self):
         super(FedLap, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, 2)

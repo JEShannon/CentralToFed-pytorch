@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from modelBase import CentralToFedBase
+from .modelBase import CentralToFedBase
 
 #based on the model used in the following paper.
 #https://arxiv.org/abs/1603.05027v3
@@ -64,9 +64,9 @@ class Bottleneck(nn.Module):
         return out
 
 
-class ResNet(CentralToFedBase):
+class Resnet(CentralToFedBase):
     def __init__(self, block, num_blocks, num_classes=100):
-        super(ResNet, self).__init__()
+        super(Resnet, self).__init__()
         self.in_planes = 64
 
         self.conv1 = nn.Conv2d(3, 64, kernel_size=3,
@@ -100,56 +100,56 @@ class ResNet(CentralToFedBase):
 #All of the following are intended for use with the CIFAR-100 dataset.
 #Set classes = 10 to change to CIFAR-10
 
-def ResNet18():
-    return ResNet(BasicBlock, [2, 2, 2, 2])
+def Resnet18():
+    return Resnet(BasicBlock, [2, 2, 2, 2])
 
 
-def ResNet34():
-    return ResNet(BasicBlock, [3, 4, 6, 3])
+def Resnet34():
+    return Resnet(BasicBlock, [3, 4, 6, 3])
 
 
-def ResNet50():
-    return ResNet(Bottleneck, [3, 4, 6, 3])
+def Resnet50():
+    return Resnet(Bottleneck, [3, 4, 6, 3])
 
 
-def ResNet101():
-    return ResNet(Bottleneck, [3, 4, 23, 3])
+def Resnet101():
+    return Resnet(Bottleneck, [3, 4, 23, 3])
 
 
-def ResNet152():
-    return ResNet(Bottleneck, [3, 8, 36, 3])
+def Resnet152():
+    return Resnet(Bottleneck, [3, 8, 36, 3])
 
-def ResNet1001():
-    return ResNet(Bottleneck, [29, 59, 216, 29])
+def Resnet1001():
+    return Resnet(Bottleneck, [29, 59, 216, 29])
 
 #from testing, this model is more memory-efficient, being able to run on my base GPU.
-def ResNet1001_3():
-    return ResNet(Bottleneck, [111, 111, 111])
+def Resnet1001_3():
+    return Resnet(Bottleneck, [111, 111, 111])
 
 #### CIFAR-10 models
 
-def ResNet18_CIFAR10():
-    return ResNet(BasicBlock, [2, 2, 2, 2], 10)
+def Resnet18_CIFAR10():
+    return Resnet(BasicBlock, [2, 2, 2, 2], 10)
 
 
-def ResNet34_CIFAR10():
-    return ResNet(BasicBlock, [3, 4, 6, 3], 10)
+def Resnet34_CIFAR10():
+    return Resnet(BasicBlock, [3, 4, 6, 3], 10)
 
 
-def ResNet50_CIFAR10():
-    return ResNet(Bottleneck, [3, 4, 6, 3], 10)
+def Resnet50_CIFAR10():
+    return Resnet(Bottleneck, [3, 4, 6, 3], 10)
 
 
-def ResNet101_CIFAR10():
-    return ResNet(Bottleneck, [3, 4, 23, 3], 10)
+def Resnet101_CIFAR10():
+    return Resnet(Bottleneck, [3, 4, 23, 3], 10)
 
 
-def ResNet152_CIFAR10():
-    return ResNet(Bottleneck, [3, 8, 36, 3], 10)
+def Resnet152_CIFAR10():
+    return Resnet(Bottleneck, [3, 8, 36, 3], 10)
 
-def ResNet1001_CIFAR10():
-    return ResNet(Bottleneck, [29, 59, 216, 29], 10)
+def Resnet1001_CIFAR10():
+    return Resnet(Bottleneck, [29, 59, 216, 29], 10)
 
 
-def ResNet1001_3_CIFAR10():
-    return ResNet(Bottleneck, [111, 111, 111], 10)
+def Resnet1001_3_CIFAR10():
+    return Resnet(Bottleneck, [111, 111, 111], 10)

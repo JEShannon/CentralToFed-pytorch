@@ -1,5 +1,5 @@
 import torch
-from aggregateBase import aggregator
+from .aggregateBase import aggregator
 
 class fedAvg(aggregator):
 

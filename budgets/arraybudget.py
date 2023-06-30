@@ -1,4 +1,4 @@
-from budgetbase import budget
+from .budgetbase import budget
 
 class arrayBudget(budget):
     def __init__(self, budgetArray):

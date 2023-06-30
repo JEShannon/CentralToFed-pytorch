@@ -1,4 +1,4 @@
-from datasetBase import ClientSet
+from .datasetBase import ClientSet
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
 import pandas as pd

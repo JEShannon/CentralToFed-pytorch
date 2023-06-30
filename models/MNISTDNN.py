@@ -1,9 +1,9 @@
 import torch.nn as nn
-from modelBase import CentralToFedBase
+from .modelBase import CentralToFedBase
 
 #A simple model
 
-class MNIST_DNN(CentraloFedBase):
+class MNIST_DNN(CentralToFedBase):
   def __init__(self):
         super(FedLap, self).__init__()
         

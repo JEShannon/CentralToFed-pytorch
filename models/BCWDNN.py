@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from modelBase import CentralToFedBase
+from .modelBase import CentralToFedBase
 
 #based on the model used in the following paper.
 #https://proceedings.mlr.press/v130/fraboni21a.html

@@ -1,4 +1,4 @@
-from budgetbase import budget
+from .budgetbase import budget
 
 class ConstantBudget(budget):
     def __init__(self, roundBudget = 0):
