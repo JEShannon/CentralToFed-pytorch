@@ -16,7 +16,7 @@ class MNIST_DNN(CentralToFedBase):
         x = x.reshape((len(x), -1))
         #x = x.reshape((-1, 784))
 
-        print(x.shape)
+        #print(x.shape)
 
         x = self.layer1(x)
         x = self.layer2(x)

@@ -1,3 +1,6 @@
+from perturbs.laplace import LaplaceNoise
+from budgets.budgetbase import budget
+from budgets.constant import ConstantBudget
 
 """
 This class exists to hold all the options for the server training.
@@ -17,3 +20,16 @@ class FedConfiguration():
 
     def __setitem__(self, key, value):
         self.__options[key] = value
+
+    def hasNoise(self):
+        return self["perturbation"] and (self["budget"] or (not self["perturbation"].useNoiseArg()))
+
+    def usePerturbation(self, method=LaplaceNoise(), trainingBudget=1.0, sensitivity=1.0):
+        if(isinstance(trainingBudget, budget)):
+            self["budget"] = trainingBudget
+        elif(isinstance(trainingBudget, float)):
+            self["budget"] = ConstantBudget(trainingBudget)
+        else:
+            self["budget"] = ConstantBudget((float) (trainingBudget))
+        self["pertubation"] = method
+        self["noiseSensitivity"] = sensitivity

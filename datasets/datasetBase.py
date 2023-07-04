@@ -1,7 +1,11 @@
 import torch
-from torch.utils.data import DataLoader, Dataset
+import os
+import sys
+from torch.utils.data import DataLoader, Dataset, TensorDataset
 from torchvision import datasets, transforms
 import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 #All datasets ultimately are used as client sets, which is just a wrapper for a non-changing list.
 #Clientset is defined here, but how a clientset is created from a base dataset is implementation specifc.
@@ -14,6 +18,8 @@ class ClientSet(Dataset):
     return len(self.labels)
   def __getitem__(self, idx):
     return self.images[idx], self.labels[idx]
+
+dataLoc = os.path.join(os.path.dirname(sys.modules[__name__].__file__),"data")
 
 #### CIFAR-10
 
@@ -79,7 +85,8 @@ def makeMNISTData(num_users):
 
 #this dataset is already in our folder, under "BreastCancerWisconsin/wdbc.csv"
 def makeBCWData(num_users):
-  BREAST_CANCER_DATASET = './data/BCW/wdbc.csv'
+  BREAST_CANCER_DATASET = os.path.join(dataLoc,'BCW','wdbc.data')
+  #print(BREAST_CANCER_DATASET)
 
   rawData = pd.read_csv(BREAST_CANCER_DATASET, header=None)
   answers = rawData.loc[:,1]
@@ -107,7 +114,7 @@ def makeBCWData(num_users):
   
   datasets = []
   users = 0
-  for images, labels in bcw_loader:
+  for images, labels in bcw_train:
     client_dataset = ClientSet(images, labels)
     datasets.append(DataLoader(client_dataset, batch_size = 128, shuffle=True)) #small batch size because there are only 85 images per user with 5 users.  This makes it 7 batches.
     users += 1
