@@ -3,7 +3,7 @@ from .budgetbase import budget
 class ConstantBudget(budget):
     def __init__(self, roundBudget = 0):
         super().__init__("Constant Budget")
-        self.__budget = totalBudget
+        self.__budget = roundBudget
 
     def getTotalBudget(self):
         return self.__budget

@@ -12,17 +12,21 @@ import pickle
 import string
 import numpy as np
 import torch
+import os
+import sys
 
 n_clients = 5
 
 # In[2]:
 # OPEN THE FILES CREATED BY LEAF
+myLoc = os.path.dirname(sys.modules[__name__].__file__)
 file_train = "all_data_iid_01_2_keep_0_train_9.json"
 file_test = "all_data_iid_01_2_keep_0_test_9.json"
 
-with open(f"train/{file_train}") as json_file:
+
+with open(os.path.join(myLoc, f"train/{file_train}")) as json_file:
     data_train = json.load(json_file)
-with open(f"test/{file_test}") as json_file:
+with open(os.path.join(myLoc, f"test/{file_test}")) as json_file:
     data_test = json.load(json_file)
 
 

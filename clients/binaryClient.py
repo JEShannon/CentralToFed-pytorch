@@ -9,6 +9,7 @@ class binaryClient(fedClient):
     def __init__(self, model, dataSet):
         super().__init__("binary client")
         self.model = model
+        #print(dataSet)
         self.data = dataSet
 
     def train(self, weights, noiseFn=None, noise=0.0, sensitivity=1.0, learningRate=0.001, lossFn=nn.CrossEntropyLoss, optim=torch.optim.Adam):
@@ -26,6 +27,7 @@ class binaryClient(fedClient):
         for data, labels in self.data:
             data = data.to(DEVICE)
             labels = labels.to(DEVICE)
+            #print(data.shape, labels.shape)
             probs = model(data)
             loss = loss_fun(probs, labels)
             optimizer.zero_grad()

@@ -23,9 +23,9 @@ def testAll():
     print("------------------")
     print("BCW Noiseless")
     print("------------------")
-    BCWServer = serv(getBCWConfig())
-    for item in BCWServer.trainTest()[1:]:
-        print(item)
+##    BCWServer = serv(getBCWConfig())
+##    for item in BCWServer.trainTest()[1:]:
+##        print(item)
 
     #BCW w/ Laplace Noise
     print("------------------")
@@ -45,6 +45,7 @@ def testAll():
     for item in speareServer.trainTest()[1:]:
         print(item)
 
+    
     #CIFAR 100 Resnet 101
     print("------------------")
     print("CIFAR 100 - Resnet 101")

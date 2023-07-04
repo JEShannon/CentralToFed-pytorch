@@ -6,6 +6,7 @@ from torchvision import datasets, transforms
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from .dataBuilders.Speare import shakespeare
 
 #All datasets ultimately are used as client sets, which is just a wrapper for a non-changing list.
 #Clientset is defined here, but how a clientset is created from a base dataset is implementation specifc.
@@ -26,8 +27,8 @@ dataLoc = os.path.join(os.path.dirname(sys.modules[__name__].__file__),"data")
 def makeCIFAR10Data(num_users):
   trans_CIFAR = transforms.Compose([transforms.ToTensor(),])
   
-  CIFAR_train = datasets.CIFAR10('./data/CIFAR10/', train=True, download=True, transform=trans_CIFAR)
-  CIFAR_test = datasets.CIFAR10('./data/CIFAR10/', train=False, download=True, transform=trans_CIFAR)
+  CIFAR_train = datasets.CIFAR10(ospath.join(dataLoc,'/CIFAR10/'), train=True, download=True, transform=trans_CIFAR)
+  CIFAR_test = datasets.CIFAR10(ospath.join(dataLoc,'/CIFAR10/'), train=False, download=True, transform=trans_CIFAR)
   CIFAR_TEST_SET = DataLoader(CIFAR_test, batch_size=10, shuffle=True)
   
   CIFAR_loader = DataLoader(CIFAR_train, batch_size=len(CIFAR_train)//num_users, shuffle=True)
@@ -111,14 +112,18 @@ def makeBCWData(num_users):
   bcw_test = TensorDataset(torch.from_numpy(test_data).float(), 
                           torch.reshape(torch.from_numpy(test_labels.to_numpy()),(143,1)).float())
   BCW_TEST_SET = DataLoader(bcw_test, batch_size=10, shuffle=True)
+
+  bcw_loader = DataLoader(bcw_train, batch_size=len(bcw_train)//num_users, shuffle=True)
   
   datasets = []
   users = 0
-  for images, labels in bcw_train:
+  for images, labels in bcw_loader:
     client_dataset = ClientSet(images, labels)
     datasets.append(DataLoader(client_dataset, batch_size = 128, shuffle=True)) #small batch size because there are only 85 images per user with 5 users.  This makes it 7 batches.
     users += 1
+    #print(len(images), images.shape)
     if(users >= num_users):
+      #print(datasets)
       return datasets, bcw_test
   return datasets, bcw_test
 
@@ -132,7 +137,7 @@ def makeBCWData(num_users):
 def makeSpeareData(num_users):
   SHAKESPEARE_TRAIN_DATASET = './data/SPEARE/Shakespeare_train.pt'
   SHAKESPEARE_TEST_DATASET = './data/SPEARE/Shakespeare_test.pt'
-  if((not exists(SHAKESPEARE_TRAIN_DATASET)) or (not exists(SHAKESPEARE_TEST_DATASET))):
+  if((not os.path.exists(SHAKESPEARE_TRAIN_DATASET)) or (not os.path.exists(SHAKESPEARE_TEST_DATASET))):
     shakespeare.makeSpeareData()
   
   Speare_train_sets = torch.load(SHAKESPEARE_TRAIN_DATASET)

@@ -9,6 +9,7 @@ from models.Resnet import Resnet101, Resnet152, Resnet34_CIFAR10, Resnet50_CIFAR
 from datasets.datasetBase import *
 from aggregation.federatedAveraging import fedAvg
 from clients.simpleClient import simpleClient
+from clients.binaryClient import binaryClient
 from perturbs.laplace import LaplaceNoise
 from budgets.constant import ConstantBudget
 
@@ -64,7 +65,7 @@ def getBCWConfig():
     config["model"] = BCWDNN
     config["dataFn"] = makeBCWData
     config["aggregator"] = fedAvg()
-    config["clientFn"] = [simpleClient]
+    config["clientFn"] = [binaryClient]
     config["clientRatios"] = [1.0]
     # training parameters
     config["lossFn"] = torch.nn.MSELoss
