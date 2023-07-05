@@ -7,35 +7,35 @@ def testAll():
     print("------------------")
     print("MNIST CNN")
     print("------------------")
-##    mnistCNNServer = serv(getMNIST_CNNConfig())
-##    for item in mnistCNNServer.trainTest()[1:]:
-##        print(item)
+    mnistCNNServer = serv(getMNIST_CNNConfig())
+    for item in mnistCNNServer.trainTest()[1:]:
+        print(item)
 
     #MNIST DNN
     print("------------------")
     print("MNIST DNN")
     print("------------------")
-##    mnistDNNServer = serv(getMNIST_DNNConfig())
-##    for item in mnistDNNServer.trainTest()[1:]:
-##        print(item)
+    mnistDNNServer = serv(getMNIST_DNNConfig())
+    for item in mnistDNNServer.trainTest()[1:]:
+        print(item)
 
     #BCW Noiseless
     print("------------------")
     print("BCW Noiseless")
     print("------------------")
-##    BCWServer = serv(getBCWConfig())
-##    for item in BCWServer.trainTest()[1:]:
-##        print(item)
+    BCWServer = serv(getBCWConfig())
+    for item in BCWServer.trainTest()[1:]:
+        print(item)
 
     #BCW w/ Laplace Noise
-##    print("------------------")
-##    print("BCW Laplace Noise")
-##    print("------------------")
-##    BCWConf = getBCWConfig()
-##    BCWConf.usePerturbation()
-##    BCWServer = serv(BCWConf)
-##    for item in BCWServer.trainTest()[1:]:
-##        print(item)
+    print("------------------")
+    print("BCW Laplace Noise")
+    print("------------------")
+    BCWConf = getBCWConfig()
+    BCWConf.usePerturbation()
+    BCWServer = serv(BCWConf)
+    for item in BCWServer.trainTest()[1:]:
+        print(item)
 
     #Speare LSTM
     print("------------------")

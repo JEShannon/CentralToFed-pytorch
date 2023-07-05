@@ -27,8 +27,8 @@ dataLoc = os.path.join(os.path.dirname(sys.modules[__name__].__file__),"data")
 def makeCIFAR10Data(num_users):
   trans_CIFAR = transforms.Compose([transforms.ToTensor(),])
   
-  CIFAR_train = datasets.CIFAR10(ospath.join(dataLoc,'/CIFAR10/'), train=True, download=True, transform=trans_CIFAR)
-  CIFAR_test = datasets.CIFAR10(ospath.join(dataLoc,'/CIFAR10/'), train=False, download=True, transform=trans_CIFAR)
+  CIFAR_train = datasets.CIFAR10(os.path.join(dataLoc,'CIFAR10/'), train=True, download=True, transform=trans_CIFAR)
+  CIFAR_test = datasets.CIFAR10(os.path.join(dataLoc,'CIFAR10/'), train=False, download=True, transform=trans_CIFAR)
   CIFAR_TEST_SET = DataLoader(CIFAR_test, batch_size=10, shuffle=True)
   
   CIFAR_loader = DataLoader(CIFAR_train, batch_size=len(CIFAR_train)//num_users, shuffle=True)
@@ -46,9 +46,10 @@ def makeCIFAR10Data(num_users):
 
 def makeCIFAR100Data(num_users):
   trans_CIFAR = transforms.Compose([transforms.ToTensor(),])
+  print()
   
-  CIFAR_train = datasets.CIFAR100(ospath.join(dataLoc,'/CIFAR/'), train=True, download=True, transform=trans_CIFAR)
-  CIFAR_test = datasets.CIFAR100(ospath.join(dataLoc,'/CIFAR/'), train=False, download=True, transform=trans_CIFAR)
+  CIFAR_train = datasets.CIFAR100(os.path.join(dataLoc,'CIFAR/'), train=True, download=True, transform=trans_CIFAR)
+  CIFAR_test = datasets.CIFAR100(os.path.join(dataLoc,'CIFAR/'), train=False, download=True, transform=trans_CIFAR)
   CIFAR_TEST_SET = DataLoader(CIFAR_test, batch_size=10, shuffle=True)
   
   CIFAR_loader = DataLoader(CIFAR_train, batch_size=len(CIFAR_train)//num_users, shuffle=True)
@@ -59,16 +60,16 @@ def makeCIFAR100Data(num_users):
     userDatasets.append(DataLoader(client_dataset, batch_size = 100, shuffle=True))
     users += 1
     if(users >= num_users):
-      return datasets, CIFAR_test
-  return datasets, CIFAR_test
+      return userDatasets, CIFAR_test
+  return userDatasets, CIFAR_test
 
 #### MNIST
 
 def makeMNISTData(num_users):
   trans_mnist = transforms.Compose([transforms.ToTensor(),])
 
-  mnist_train = datasets.MNIST(ospath.join(dataLoc,'MNIST/'), train=True, download=True, transform=trans_mnist)
-  mnist_test = datasets.MNIST(ospath.join(dataLoc,'MNIST/'), train=False, download=True, transform=trans_mnist)
+  mnist_train = datasets.MNIST(os.path.join(dataLoc,'MNIST/'), train=True, download=True, transform=trans_mnist)
+  mnist_test = datasets.MNIST(os.path.join(dataLoc,'MNIST/'), train=False, download=True, transform=trans_mnist)
   MNIST_TEST_SET = DataLoader(mnist_test, batch_size=100, shuffle=True)
   
   mnist_loader = DataLoader(mnist_train, batch_size=len(mnist_train)//num_users, shuffle=True)

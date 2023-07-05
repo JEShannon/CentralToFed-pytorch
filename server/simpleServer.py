@@ -15,7 +15,7 @@ class simpleServer(serverBase):
         self.__model = config["model"]
         data, testset = config["dataFn"](numClients)
         self.__datasets = data
-        test_set = [next(iter(DataLoader(testset, batch_size=500, shuffle=True)))]
+        test_set = [next(iter(DataLoader(testset, batch_size=50, shuffle=True)))]
         self.__testSet = test_set
         self.__aggregator = config["aggregator"]
         self.__clients = []

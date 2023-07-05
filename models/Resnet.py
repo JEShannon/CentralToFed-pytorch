@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from .modelBase import CentralToFedBase
 
 #based on the model used in the following paper.
