@@ -98,7 +98,7 @@ def getSpeareConfig():
     config["budget"] = None
     config["budgetMultiplier"] = 1.0
     # model testing options
-    config["binaryResult"] = True
+    config["binaryResult"] = False
     config["topkTesting"] = None 
     return config
 
@@ -119,7 +119,7 @@ def getCIFAR_Res101Config():
     config["budget"] = None
     config["budgetMultiplier"] = 1.0
     # model testing options
-    config["binaryResult"] = True
+    config["binaryResult"] = False
     config["topkTesting"] = None 
     return config
 
@@ -140,7 +140,7 @@ def getCIFAR_Res152Config():
     config["budget"] = None
     config["budgetMultiplier"] = 1.0
     # model testing options
-    config["binaryResult"] = True
+    config["binaryResult"] = False
     config["topkTesting"] = None 
     return config
 
@@ -161,7 +161,7 @@ def getCIFAR10_Res34Config():
     config["budget"] = None
     config["budgetMultiplier"] = 1.0
     # model testing options
-    config["binaryResult"] = True
+    config["binaryResult"] = False
     config["topkTesting"] = None 
     return config
 
@@ -182,6 +182,6 @@ def getCIFAR10_Res50Config():
     config["budget"] = None
     config["budgetMultiplier"] = 1.0
     # model testing options
-    config["binaryResult"] = True
+    config["binaryResult"] = False
     config["topkTesting"] = None 
     return config

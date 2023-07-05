@@ -81,6 +81,7 @@ class simpleServer(serverBase):
         c_los = [] # client losses
         c_acc = [] # client accuracies
         for client in self.__clients:
+            print("Training a client!")
             #train each client - For the simple server this is done sequentially
             c_weights, train_l, train_a = client.train(global_w, noiseFn=self.__config["perturbation"], noise=noise, sensitivity=self.__config["noiseSensitivity"],
                                                        learningRate=self.__config["learningRate"], lossFn=self.__config["lossFn"], optim=self.__config["optimizer"])

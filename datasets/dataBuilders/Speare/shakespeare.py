@@ -24,12 +24,6 @@ file_train = "all_data_iid_01_2_keep_0_train_9.json"
 file_test = "all_data_iid_01_2_keep_0_test_9.json"
 
 
-with open(os.path.join(myLoc, f"train/{file_train}")) as json_file:
-    data_train = json.load(json_file)
-with open(os.path.join(myLoc, f"test/{file_test}")) as json_file:
-    data_test = json.load(json_file)
-
-
 # In[2]:
 def conversion_string_to_vector(sentence):
 
@@ -65,11 +59,17 @@ def create_clients(data, n_clients):
     return clients_X, clients_y
 
 def makeSpeareData():
-    train_path = "./../../data/SPEARE/Shakespeare_train.pt"
-    torch.save(create_clients(data_train, 10), output)
+    with open(os.path.join(myLoc, f"train/{file_train}")) as json_file:
+        data_train = json.load(json_file)
+    with open(os.path.join(myLoc, f"test/{file_test}")) as json_file:
+        data_test = json.load(json_file)
 
-    test_path = "./../../data/SPEARE/Shakespeare_test.pt"
-    torch.save(create_clients(data_test, 1), output)
+    train_path = os.path.join(myLoc, os.pardir, os.pardir, "data/SPEARE/Shakespeare_train.pt")
+    print(train_path)
+    torch.save(create_clients(data_train, 10), train_path)
+
+    test_path = os.path.join(myLoc, os.pardir, os.pardir, "data/SPEARE/Shakespeare_test.pt")
+    torch.save(create_clients(data_test, 1), test_path)
 
 
 # In[2]:

@@ -28,14 +28,14 @@ def testAll():
 ##        print(item)
 
     #BCW w/ Laplace Noise
-    print("------------------")
-    print("BCW Laplace Noise")
-    print("------------------")
-    BCWConf = getBCWConfig()
-    BCWConf.usePerturbation()
-    BCWServer = serv(BCWConf)
-    for item in BCWServer.trainTest()[1:]:
-        print(item)
+##    print("------------------")
+##    print("BCW Laplace Noise")
+##    print("------------------")
+##    BCWConf = getBCWConfig()
+##    BCWConf.usePerturbation()
+##    BCWServer = serv(BCWConf)
+##    for item in BCWServer.trainTest()[1:]:
+##        print(item)
 
     #Speare LSTM
     print("------------------")
