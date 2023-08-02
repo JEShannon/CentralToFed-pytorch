@@ -1,6 +1,8 @@
 import torch
 
 from configurations import FedConfiguration
+from server.simpleServer import simpleServer
+from server.multiGPUServer import multiGPUServer
 from models.MNISTCNN import MNISTCNN
 from models.MNISTDNN import MNISTDNN
 from models.BCWDNN import BCWDNN
@@ -33,7 +35,7 @@ def getMNIST_CNNConfig():
     config["budget"] = None
     config["budgetMultiplier"] = 1.0
     # model testing options
-    config["binaryResult"] = False # Are the results from the system True/False?
+    config["binaryResult"] = False # Are the results from the system only True/False? 
     config["topkTesting"] = None # Should testing consider the top k results when considering if the network is correct?
     # Additional note: this value is None (if it isn't used) or an integer value, where the value is k
     return config
@@ -167,7 +169,29 @@ def getCIFAR10_Res34Config():
 
 def getCIFAR10_Res50Config():
     config = FedConfiguration()
-    config["model"] = Resnet52_CIFAR10
+    config["model"] = Resnet50_CIFAR10
+    config["dataFn"] = makeCIFAR10Data
+    config["aggregator"] = fedAvg()
+    config["clientFn"] = [simpleClient]
+    config["clientRatios"] = [1.0]
+    # training parameters
+    config["lossFn"] = torch.nn.CrossEntropyLoss
+    config["optimizer"] = torch.optim.Adam
+    config["learningRate"] = 0.001
+    # perturbation parameters
+    config["pertubation"] = None
+    config["noiseSensitivity"] = 1.0
+    config["budget"] = None
+    config["budgetMultiplier"] = 1.0
+    # model testing options
+    config["binaryResult"] = False
+    config["topkTesting"] = None 
+    return config
+
+def getCIFAR10_multiGPU_Res50Config():
+    config = FedConfiguration()
+    config["server"] = multiGPUServer
+    config["model"] = Resnet50_CIFAR10
     config["dataFn"] = makeCIFAR10Data
     config["aggregator"] = fedAvg()
     config["clientFn"] = [simpleClient]
