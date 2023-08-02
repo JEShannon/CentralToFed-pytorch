@@ -43,6 +43,7 @@ class multiGPUServer(serverBase):
         self.__testSet = test_set
         self.__aggregator = config["aggregator"]
         self.__clients = []
+        #first ready the threads - one for each GPU.  We assume that the gpuCount and gpuIds (if provided) are accurate
         for i in range(numClients):
             #initialize the clients
             #### TODO: Use the config's clients array to have different clients in the same system -- NEEDED for scenarios with malicious clients.
